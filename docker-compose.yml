@@ -1,0 +1,33 @@
+version: "3.8" # Docker Compose specification version - defines available features and syntax
+
+services: # Section for defining services (containers)
+  db: # Name of the first service - database
+    image: postgres:15 # Use PostgreSQL version 15 image from Docker Hub
+    environment: # Environment variables for the container
+      POSTGRES_USER: postgres # PostgreSQL username
+      POSTGRES_PASSWORD: 5432 # PostgreSQL password
+      POSTGRES_DB: postgres # Database name to be created
+    ports: # Port mapping from container to host
+      - "5432:5432" # Format "host:container" - port 5432 on host maps to port 5432 in container
+    volumes: # Volume mounting for data persistence
+      - pgdata:/var/lib/postgresql/data # Named volume to persist database data between restarts
+
+  app: # Name of the second service - Node.js application
+    build: # Indicates that an image should be built from a Dockerfile
+      context: . # Build context - current directory
+      dockerfile: dockerfile # Name of the Dockerfile to build the image from
+    environment: # Environment variables for the application
+      NODE_ENV: development # Node.js environment mode - development
+      DB_HOST: db # Database host - service name 'db' (Docker DNS will resolve this name)
+      DB_USER: postgres # Database username for connection
+      DB_PASSWORD: postgres # Database password for connection
+      DB_NAME: postgres # Database name for connection
+    ports: # Port mapping from container to host
+      - "3000:3000" # Application will be accessible on port 3000 of the host
+    depends_on: # Defines dependencies - app will only start after db
+      - db # Dependency on db service - db starts first, then app
+    volumes: # Directory mounting for development
+      - ./src:/app/src # Mounts local src directory to /app/src in container for hot reloading
+
+volumes: # Section for defining named volumes
+  pgdata: # Definition of pgdata volume used above

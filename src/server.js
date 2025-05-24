@@ -16,7 +16,7 @@ async function testConnection() {
 
     // Only use force:true in development
     const syncOptions =
-      process.env.NODE_ENV === "development" ? { force: true } : {};
+      process.env.NODE_ENV === "development" ? { alter: true } : {};
     await sequelize.sync(syncOptions);
     console.log("Database synchronized");
   } catch (error) {

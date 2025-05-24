@@ -6,7 +6,7 @@ const router = require("express").Router();
 router.post("/", async (req, res) => {
   try {
     const user = await User.create(req.body);
-    res.status(201).json(user);
+    res.status(201).json({ message: "User added successfully!", user });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

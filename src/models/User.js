@@ -24,8 +24,11 @@ const User = sequelize.define("User", {
     type: DataTypes.STRING,
     defaultValue: null,
   },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: "change_me", // Default value for password
+  },
 });
-
-// User.hasMany()
 
 module.exports = User;

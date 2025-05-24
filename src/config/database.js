@@ -22,9 +22,9 @@ if (process.env.NODE_ENV !== "test") {
   );
 } else {
   sequelize = new Sequelize({
-    dialect: "sqlite",
-    storage: ":memory:",
-    logging: false, // Set to console.log to see SQL queries
+    dialect: "postgres",
+    // storage: ":memory:",
+    logging: console.log, // Set to console.log to see SQL queries
   });
 }
 
