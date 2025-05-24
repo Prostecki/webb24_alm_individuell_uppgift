@@ -13,8 +13,11 @@ async function testConnection() {
   try {
     await sequelize.authenticate();
     console.log("Database connection has been established successfully.");
-    // Sync all models
-    await sequelize.sync({ force: true }); // Note: force: true will drop the table if it already exists
+
+    // Only use force:true in development
+    const syncOptions =
+      process.env.NODE_ENV === "development" ? { force: true } : {};
+    await sequelize.sync(syncOptions);
     console.log("Database synchronized");
   } catch (error) {
     console.error("Unable to connect to the database:", error);

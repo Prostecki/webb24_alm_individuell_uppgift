@@ -6,11 +6,20 @@ dotenv.config();
 let sequelize;
 
 if (process.env.NODE_ENV !== "test") {
-  sequelize = new Sequelize({
-    dialect: "sqlite",
-    storage: process.env.DB_PATH,
-    logging: false, // Set to console.log to see SQL queries
-  });
+  sequelize = new Sequelize(
+    process.env.DB_NAME,
+    process.env.DB_USER,
+    process.env.DB_PASSWORD,
+    {
+      host: process.env.DB_HOST,
+      dialect: "postgres",
+      port: process.env.DB_PORT || 5432,
+      logging: false, // Set to console.log to see SQL queries
+      define: {
+        timestamps: true,
+      },
+    }
+  );
 } else {
   sequelize = new Sequelize({
     dialect: "sqlite",
