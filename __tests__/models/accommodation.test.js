@@ -1,5 +1,3 @@
-// const { User } = require("../../src/models");
-const sequelize = require("../../src/config/database");
 const { Accommodation, User } = require("../test-setup");
 const { Op } = require("sequelize");
 
@@ -57,11 +55,11 @@ describe("Accommodation Model", () => {
 
     expect(accommodation.userId).toBe(user.id);
 
-    // Test association
+    // Test association - FIX THE INCLUDE STATEMENT HERE
     const accommodationWithUser = await Accommodation.findByPk(
       accommodation.id,
       {
-        include: [User],
+        include: [{ model: User, as: "User" }], // Specify the alias
       }
     );
     expect(accommodationWithUser.User).toBeDefined();

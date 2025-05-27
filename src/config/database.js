@@ -12,6 +12,8 @@ if (process.env.NODE_ENV !== "test") {
     process.env.DB_PASSWORD,
     {
       host: process.env.DB_HOST,
+
+      // changed from sqlite to postgres
       dialect: "postgres",
       port: process.env.DB_PORT || 5432,
       logging: false, // Set to console.log to see SQL queries
@@ -22,9 +24,12 @@ if (process.env.NODE_ENV !== "test") {
   );
 } else {
   sequelize = new Sequelize({
+    database: "docker-uppgift",
+    username: "postgres",
+    password: "5432",
+    host: "localhost",
     dialect: "postgres",
-    // storage: ":memory:",
-    logging: console.log, // Set to console.log to see SQL queries
+    logging: console.log,
   });
 }
 

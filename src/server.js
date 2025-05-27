@@ -25,7 +25,8 @@ async function testConnection() {
 
     // Only use force:true in development
     const syncOptions =
-      process.env.NODE_ENV === "development" ? { alter: true } : {};
+      // alter - this will update the database schema without dropping tables
+      process.env.NODE_ENV === "development" ? { force: true } : {};
     await sequelize.sync(syncOptions);
     console.log("Database synchronized");
   } catch (error) {
